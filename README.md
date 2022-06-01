@@ -1,3 +1,3 @@
 # Ecommerce Flask course
 
-## Video series
+### Video series
