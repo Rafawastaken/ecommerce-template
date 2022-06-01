@@ -10,6 +10,7 @@
     />
   </head>
   <body>
+    {% include '_flash.html' %}
     <!-- content of website -->
     {% block content %} {% endblock %}
     <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
