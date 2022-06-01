@@ -4,4 +4,18 @@
 <!-- Content -->
 {% block content %}
 <div class="h1 text-center">Register Page</div>
+<div class="container">
+  {% from "_formhelpers.html" import render_field %}
+  <form method="post">
+    <dl>
+      {{ render_field(form.name, class="form-control") }} {{
+      render_field(form.username, class="form-control") }} {{
+      render_field(form.email, class="form-control") }} {{
+      render_field(form.password, class="form-control") }} {{
+      render_field(form.confirm, class="form-control") }}
+      <input type="file" name="photo" />
+    </dl>
+    <p><input type="submit" value="Register" class="btn btn-primary" /></p>
+  </form>
+</div>
 {% endblock %}
