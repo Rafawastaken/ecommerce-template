@@ -1,1 +1,3 @@
-"# Ecommerce Flask course"  
+# Ecommerce Flask course
+
+## Video series
