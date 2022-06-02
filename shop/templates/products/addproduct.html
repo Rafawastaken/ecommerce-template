@@ -20,7 +20,25 @@
         <!-- Stock -->
         {{ render_field(form.stock, placeholder='Product Stock',
         class='form-control') }}
-        <!-- Color -->
+
+        <!--Select brands-->
+        <label for="brand" class="fw-bold">Brands</label>
+        <select name="brand" id="brand" class="form-control mb-3">
+          <option value="">Select brand</option>
+          {% for brand in brands %}
+          <option value="{{brand.id}}">{{brand.name}}</option>
+          {% endfor %}
+        </select>
+
+        <!-- Select Catergory-->
+        <label for="category" class="fw-bold">Categories</label>
+        <select name="category" id="category" class="form-control mb-3">
+          <option value="">Select Category</option>
+          {% for category in categories %}
+          <option value="{{category.id}}">{{category.name}}</option>
+          {% endfor %}
+        </select>
+        <!-- Colors -->
         {{ render_field(form.colors, placeholder='Product Colors',
         class='form-control') }}
         <!-- Desc -->
