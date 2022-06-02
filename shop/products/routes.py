@@ -1,5 +1,6 @@
 from flask import redirect, render_template, url_for, flash, request
 
+from .forms import Addproducts
 from .models import Brand, Category
 from shop import db, app
 
@@ -26,3 +27,9 @@ def addcat():
         flash(f"Category:'{getcategory}' added to database!", "success")
         return redirect(url_for('addbrand'))
     return render_template('products/addbrand.html', title = 'Add Category')
+
+# Add Product
+@app.route('/addproduct', methods=['POST', 'GET'])
+def addproduct():
+    form = Addproducts(request.form)
+    return render_template('products/addproduct.html', title = "Add Product Page", form = form)

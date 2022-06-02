@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+<!-- Content -->
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <h2 class="text-center bg-primary p-2">Add a Product</h2>
+      {% from '_formhelpers.html' import render_field %}
+      <form method="POST" enctype="multipart/form-data">
+        <!-- Name-->
+        {{ render_field(form.name, placeholder='Product Name',
+        class='form-control') }}
+        <!-- Price -->
+        {{ render_field(form.price, placeholder='Product Price',
+        class='form-control') }}
+        <!-- Discount -->
+        {{ render_field(form.discount, placeholder='Product Discount',
+        class='form-control') }}
+        <!-- Stock -->
+        {{ render_field(form.stock, placeholder='Product Stock',
+        class='form-control') }}
+        <!-- Color -->
+        {{ render_field(form.colors, placeholder='Product Colors',
+        class='form-control') }}
+        <!-- Desc -->
+        {{ render_field(form.description, placeholder='Product Description',
+        class='form-control') }}
+        <div class="row">
+          <div class="col-md-4">
+            {{ render_field(form.image_1, class='form-control')}}
+          </div>
+          <div class="col-md-4">
+            {{ render_field(form.image_2, class='form-control')}}
+          </div>
+          <div class="col-md-4">
+            {{ render_field(form.image_3, class='form-control')}}
+          </div>
+        </div>
+        <input
+          type="submit"
+          value="Add Product"
+          class="btn btn-outline-primary mt-4"
+        />
+      </form>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+</div>
+{% endblock %}
