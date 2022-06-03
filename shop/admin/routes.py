@@ -5,16 +5,22 @@ import os
 
 # Local imports
 from shop import app, db, bcrypt
+from shop.products.models import Addproduct
 from .forms import RegistrationForm, LoginForm
 from .models import User
 
 #  Landing Admin
 @app.route("/")
 def admin():
+    # Check if user is authenticated
     if 'email' not in session:
         flash('Please log in first', 'danger')
         return redirect(url_for('login'))
-    return render_template('admin/index.html', title = 'Admin Page')
+    
+    # Query products
+    products = Addproduct.query.all()
+
+    return render_template('admin/index.html', title = 'Admin Page', products = products)
 
 # Register users
 @app.route('/register', methods=['GET', 'POST'])

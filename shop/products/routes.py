@@ -1,4 +1,4 @@
-from flask import redirect, render_template, url_for, flash, request
+from flask import redirect, render_template, url_for, flash, request, session
 
 import secrets
 
@@ -35,12 +35,17 @@ def addcat():
         db.session.commit()
 
         flash(f"Category:'{getcategory}' added to database!", "success")
-        return redirect(url_for('addbrand'))
+        return redirect(url_for('addcat'))
     return render_template('products/addbrand.html', title = 'Add Category')
 
 # Add Product
 @app.route('/addproduct', methods=['POST', 'GET'])
 def addproduct():
+        # Check if user is authenticated
+    if 'email' not in session:
+        flash('Please log in first', 'danger')
+        return redirect(url_for('login'))
+
     brands = Brand.query.all()
     categories = Category.query.all()
     form = Addproducts(request.form)
