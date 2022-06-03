@@ -16,7 +16,6 @@ def admin():
     if 'email' not in session:
         flash('Please log in first', 'danger')
         return redirect(url_for('login'))
-
     # Query products
     products = Addproduct.query.all()
     return render_template('admin/index.html', title = 'Admin Page', products = products)
@@ -28,7 +27,6 @@ def brands():
     if 'email' not in session:
         flash('Please log in first', 'danger')
         return redirect(url_for('login'))
-
     # Query brands
     brands = Brand.query.order_by(Brand.id.desc()).all()
     return render_template('admin/brand.html', title = 'Brand Page', brands = brands)
@@ -40,7 +38,6 @@ def categories():
     if 'email' not in session:
         flash("Please log in first", 'danger')
         return redirect(url_for('login'))
-
     # Query categories
     categories = Category.query.order_by(Category.id.desc()).all()
     return render_template('admin/brand.html', title = 'Category Page', categories = categories)

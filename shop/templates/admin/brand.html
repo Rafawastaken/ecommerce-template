@@ -21,7 +21,13 @@
       <tr>
         <td>{{ loop.index }}</td>
         <td class="text-start">{{ brand.name }}</td>
-        <td><a href="#" class="btn btn-sm btn-outline-primary">Edit</a></td>
+        <td>
+          <a
+            href="{{ url_for('updatebrand', id = brand.id) }}"
+            class="btn btn-sm btn-outline-primary"
+            >Edit</a
+          >
+        </td>
         <td><a href="#" class="btn btn-sm btn-outline-danger">Delete</a></td>
       </tr>
       {% endfor %}

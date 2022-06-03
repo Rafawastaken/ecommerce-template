@@ -21,6 +21,26 @@ def addbrand():
         flash(f"Brand: '{getbrand}' added to database!", "success")
         return redirect(url_for('addbrand'))
     return render_template('products/addbrand.html', brands = True, title = 'Add Brand')
+    
+# Update Brand
+@app.route('/updatebrand/<int:id>', methods = ['POST', 'GET'])
+def updatebrand(id):
+    # Check if user is authenticated
+    if 'email' not in session:
+        flash("Please log in first", 'danger')
+        return redirect(url_for('login'))
+
+    update_brand = Brand.query.get_or_404(id)
+    brand = request.form.get('brand')
+
+    # If form is submited, update.
+    if request.method == 'POST':
+        update_brand.name = brand
+        db.session.commit()
+        flash(f'Brand {brand} updated with success!', 'success')
+        return redirect(url_for('brands'))    
+
+    return render_template('products/updatebrand.html', title = 'Update Brand', update_brand = update_brand)
 
 # Add Category
 @app.route('/addcat', methods = ['GET', 'POST'])
