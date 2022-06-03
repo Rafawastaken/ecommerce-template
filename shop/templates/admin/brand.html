@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+<!-- Block Content -->
+{% block content %}
+<!-- Import navbar.html -->
+{% include 'admin/components/navbar.html' %}
+<!-- Table of brands -->
+<div class="container mt-3">
+  <table
+    class="mt-3 text-center table table-sm table-condensed table-striped table-hover"
+  >
+    <thead>
+      <th>ID</th>
+      <th class="text-start">Name</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </thead>
+    <tbody>
+      {% if brands %}
+      <!--  loop through brands -->
+      {% for brand in brands %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td class="text-start">{{ brand.name }}</td>
+        <td><a href="#" class="btn btn-sm btn-outline-primary">Edit</a></td>
+        <td><a href="#" class="btn btn-sm btn-outline-danger">Delete</a></td>
+      </tr>
+      {% endfor %}
+      <!-- If its not brand its category-->
+      {% else %}
+      <!-- loop through categories-->
+      {% for cat in categories %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td class="text-start">{{ cat.name }}</td>
+        <td><a href="#" class="btn btn-sm btn-outline-primary">Edit</a></td>
+        <td><a href="#" class="btn btn-sm btn-outline-danger">Delete</a></td>
+      </tr>
+      {% endfor %}
+      <!-- End loop -->
+      {% endif %}
+      <!-- end if -->
+    </tbody>
+  </table>
+</div>
+{% endblock %}

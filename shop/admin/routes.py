@@ -5,7 +5,7 @@ import os
 
 # Local imports
 from shop import app, db, bcrypt
-from shop.products.models import Addproduct
+from shop.products.models import Addproduct, Brand, Category
 from .forms import RegistrationForm, LoginForm
 from .models import User
 
@@ -16,11 +16,35 @@ def admin():
     if 'email' not in session:
         flash('Please log in first', 'danger')
         return redirect(url_for('login'))
-    
+
     # Query products
     products = Addproduct.query.all()
-
     return render_template('admin/index.html', title = 'Admin Page', products = products)
+
+# Display brands
+@app.route('/brands')
+def brands():
+    # Check if user is authenticated
+    if 'email' not in session:
+        flash('Please log in first', 'danger')
+        return redirect(url_for('login'))
+
+    # Query brands
+    brands = Brand.query.order_by(Brand.id.desc()).all()
+    return render_template('admin/brand.html', title = 'Brand Page', brands = brands)
+
+# Display categories
+@app.route('/categories')
+def categories():
+    # Check if user is authenticated
+    if 'email' not in session:
+        flash("Please log in first", 'danger')
+        return redirect(url_for('login'))
+
+    # Query categories
+    categories = Category.query.order_by(Category.id.desc()).all()
+    return render_template('admin/brand.html', title = 'Category Page', categories = categories)
+
 
 # Register users
 @app.route('/register', methods=['GET', 'POST'])
