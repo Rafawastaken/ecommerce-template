@@ -2,7 +2,7 @@ from flask import redirect, render_template, url_for, flash, request
 
 from .forms import Addproducts
 from .models import Brand, Category
-from shop import db, app
+from shop import db, app, photos
 
 # Add Brands
 @app.route('/addbrand', methods = ['GET', 'POST'])
@@ -34,6 +34,12 @@ def addproduct():
     brands = Brand.query.all()
     categories = Category.query.all()
     form = Addproducts(request.form)
+
+    if request.method == 'POST':
+        photos.save(request.files.get('image_1'))
+        photos.save(request.files.get('image_2'))
+        photos.save(request.files.get('image_3'))
+
     return render_template('products/addproduct.html', 
         title = "Add Product Page", form = form, brands = brands, 
         categories = categories)

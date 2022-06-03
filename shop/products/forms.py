@@ -4,8 +4,8 @@ from flask_wtf.file import FileField,FileRequired,FileAllowed
 class Addproducts(Form):
     name = StringField('Name', [validators.DataRequired()])
     price = IntegerField('Price', [validators.DataRequired()])
-    discount = IntegerField('Price', [validators.DataRequired()])
-    stock = IntegerField('Price', [validators.DataRequired()])
+    discount = IntegerField('Discount', [validators.DataRequired()])
+    stock = IntegerField('Stock', [validators.DataRequired()])
     description = TextAreaField('Description', [validators.DataRequired()])
     colors = TextAreaField('Colors', [validators.DataRequired()])
 
