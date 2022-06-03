@@ -83,7 +83,7 @@ def addproduct():
 
         flash(f'Product {name} added to store!', 'success')
         return redirect(url_for('admin'))
-
+        
     return render_template('products/addproduct.html', 
         title = "Add Product Page", form = form, brands = brands, 
         categories = categories)

@@ -6,6 +6,8 @@ __pycache__/
 # C extensions
 *.so
 
+# Local
+images_example/
 images/
 
 # Distribution / packaging
