@@ -1,3 +1,4 @@
+from functools import reduce
 from flask import redirect, render_template, url_for, flash, request, session
 
 import secrets
@@ -41,6 +42,27 @@ def updatebrand(id):
         return redirect(url_for('brands'))    
 
     return render_template('products/updatebrand.html', title = 'Update Brand', update_brand = update_brand)
+
+# Update Category
+@app.route('/updatecategory/<int:id>', methods=['POST', 'GET'])
+def updatecat(id):
+    # Check if user is authenticated
+    if 'email' not in session:
+        flash("Please log in first", 'danger')
+        return redirect(url_for('login'))
+
+    update_cat = Category.query.get_or_404(id)
+    cat = request.form.get('category')
+
+    # if form is submited, update
+    if request.method == 'POST':
+        update_cat.name =  cat
+        db.session.commit()
+
+        flash(f'Category {cat} updated with success!', 'success')
+        return redirect(url_for('categories'))
+
+    return render_template('products/updatebrand.html', title = 'Update Category', update_cat = update_cat)
 
 # Add Category
 @app.route('/addcat', methods = ['GET', 'POST'])

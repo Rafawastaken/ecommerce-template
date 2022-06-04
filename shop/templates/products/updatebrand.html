@@ -20,16 +20,33 @@
           class="btn btn-primary mt-2"
         />
       </form>
+      <a
+        href="{{url_for('brands')}}"
+        class="btn btn-warning"
+        style="margin-top: -66px; margin-left: 130px"
+        >Cancel</a
+      >
       {% else %}
       <h1 class="text-center mt-5">Update Category</h1>
       <form method="POST">
-        <input type="text" name="category" class="form-control" />
+        <input
+          type="text"
+          name="category"
+          class="form-control"
+          value="{{update_cat.name}}"
+        />
         <input
           type="submit"
           value="Update Category"
           class="btn btn-primary mt-2"
         />
       </form>
+      <a
+        href="{{url_for('categories')}}"
+        class="btn btn-warning"
+        style="margin-top: -66px; margin-left: 155px"
+        >Cancel</a
+      >
       {% endif %}
     </div>
     <div class="col-md-3"></div>
