@@ -1,9 +1,11 @@
-from functools import reduce
-from math import prod
-from flask import redirect, render_template, url_for, flash, request, session
-
+from flask import current_app, render_template, url_for, flash
+from flask import redirect, request, session
 import secrets
 
+# System imports
+import os
+
+# Locals imports
 from .forms import Addproducts
 from .models import Brand, Category, Addproduct
 from shop import db, app, photos
@@ -150,7 +152,6 @@ def updateproduct(id):
     brand_id = request.form.get('brand')
     category_id = request.form.get('category')
 
-
     # if form is submitted
     if request.method == 'POST':
         # update product in database
@@ -163,13 +164,35 @@ def updateproduct(id):
         product.colors = form.colors.data
         product.desc = form.description.data
 
-        # save on database
+        # Replace images if image is found
+        if request.files.get('image_1'):
+            try:
+                os.unlink(os.path.join(current_app.root_path, 'static/images/' + product.image_1))
+                product.image_1 = photos.save(request.files.get('image_1'), name = secrets.token_hex(10) + ".")
+            except:
+                product.image_1 = photos.save(request.files.get('image_1'), name = secrets.token_hex(10) + ".")
+
+        if request.files.get('image_2'):
+            try:
+                os.unlink(os.path.join(current_app.root_path, 'static/images/' + product.image_2))
+                product.image_2 = photos.save(request.files.get('image_2'), name = secrets.token_hex(10) + ".")
+            except:
+                product.image_2 = photos.save(request.files.get('image_2'), name = secrets.token_hex(10) + ".")
+
+        if request.files.get('image_3'):
+            try:
+                os.unlink(os.path.join(current_app.root_path, 'static/images/' + product.image_3))
+                product.image_3 = photos.save(request.files.get('image_3'), name = secrets.token_hex(10) + ".")
+            except:
+                product.image_3 = photos.save(request.files.get('image_3'), name = secrets.token_hex(10) + ".")
+
+        # save database
         db.session.commit()
 
         flash(f"{product.name} updated with success!", 'success')
         return redirect(url_for('admin'))
 
-        # Match values with form
+    # Match values with form
     form.name.data = product.name
     form.price.data = product.price
     form.discount.data = product.discount
