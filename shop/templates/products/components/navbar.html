@@ -15,8 +15,9 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
+          <a class="nav-link" href="{{url_for('home')}}">All Products</a>
         </li>
+        <!-- Brands Dropdown -->
         <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle"
@@ -26,15 +27,46 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            Dropdown
+            Brands
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            {% for brand in brands %}
+            <li>
+              <a
+                class="dropdown-item"
+                href="{{url_for('get_brand', id = brand.id)}}"
+                >{{brand.name}}</a
+              >
+            </li>
+            {% endfor %}
           </ul>
         </li>
+        <!-- End Brands Dropdown -->
+        <!-- Categories Dropdown -->
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Categories
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {% for categorie in categories %}
+            <li>
+              <a
+                class="dropdown-item"
+                href="{{url_for('get_category', id = categorie.id)}}"
+                >{{categorie.name}}</a
+              >
+            </li>
+            {% endfor %}
+          </ul>
+        </li>
+        <!-- End Categories Dropdown -->
         <li class="nav-item">
           <a class="nav-link disabled">Disabled</a>
         </li>

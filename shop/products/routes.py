@@ -1,3 +1,4 @@
+from unicodedata import category
 from flask import current_app, render_template, url_for, flash
 from flask import redirect, request, session
 import secrets
@@ -11,11 +12,40 @@ from .models import Brand, Category, Addproduct
 from shop import db, app, photos
 
 
+################# FRONTEND #################
+
 # Homepage
 @app.route('/')
 def home():
     products = Addproduct.query.filter(Addproduct.stock > 0)
-    return render_template('products/index.html', products = products)
+    brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
+    categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
+
+    return render_template('products/index.html', title="Ecom - Homepage", 
+        products = products, brands = brands, categories = categories)
+
+# Display Brands 
+@app.route('/brand/<int:id>')
+def get_brand(id):
+    brand = Addproduct.query.filter_by(brand_id = id)
+    brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
+    brand_name = Brand.query.filter_by(id = id).first().name
+    
+    categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
+
+    return render_template('products/index.html', title = f'Watching {brand_name}',
+        brand = brand, brands = brands, categories =  categories)
+
+# Display Categories
+@app.route('/category/<int:id>')
+def get_category(id):
+    get_cat_prod = Addproduct.query.filter_by(category_id = id)
+    category_name = Category.query.filter_by(id = id).first().name
+    categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
+    brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
+
+    return render_template('products/index.html', title = f'Watching {category_name}',
+        get_cat_prod = get_cat_prod, categories = categories, brands = brands)
 
 
 ################# BRANDS #################
@@ -71,7 +101,6 @@ def deletebrand(id):
     # if request methods isn't POST
     flash(f"{brand.name} can't be deleted", 'warning')
     return redirect(url_for('admin'))
-
 
 ################# CATS #################
 

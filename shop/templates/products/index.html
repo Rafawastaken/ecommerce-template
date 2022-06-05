@@ -4,8 +4,87 @@
 <!-- Navabar Import -->
 {% include './products/components/navbar.html' %}
 <!-- Content Page -->
-<div class="container">
+<div class="container mt-3">
   <div class="row">
+    <!-- If brand -->
+    {% if brand %}
+    <!-- Loop throught products in X brand -->
+    {% for b in brand %}
+    <div class="col-md-3">
+      <div class="card">
+        <img
+          src="{{url_for('static', filename = 'images/' + b.image_1)}}"
+          alt="{{b.name}}"
+          class="card-img-top"
+          height="200"
+        />
+        <div class="card-body">
+          {% if b.discount > 0 %}
+          <h5
+            style="
+              text-shadow: 1px 1px 2px #000;
+              color: #f00;
+              transform: rotate(-15deg);
+              position: absolute;
+              top: 20%;
+              left: 20%;
+            "
+          >
+            Discount {{b.discount}} %
+          </h5>
+          {% endif %}
+          <h5 class="text-center">{{b.name}}</h5>
+          <p class="text-center">Price: {{b.price}}€</p>
+        </div>
+        <div class="card-footer">
+          <a href="#" class="float-start btn btn-sm btn-primary">Details</a>
+          <a href="#" class="float-end btn btn-sm btn-warning">Add to Cart</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    <!-- End brand loop -->
+    <!-- If category query-->
+    {% elif get_cat_prod %}
+    <!-- Iterate  throught products in X category -->
+    {% for get_cat in get_cat_prod %}
+    <div class="col-md-3">
+      <div class="card">
+        <img
+          src="{{url_for('static', filename = 'images/' + get_cat.image_1)}}"
+          alt="{{get_cat.name}}"
+          class="card-img-top"
+          height="200"
+        />
+        <div class="card-body">
+          {% if get_cat.discount > 0 %}
+          <h5
+            style="
+              text-shadow: 1px 1px 2px #000;
+              color: #f00;
+              transform: rotate(-15deg);
+              position: absolute;
+              top: 20%;
+              left: 20%;
+            "
+          >
+            Discount {{get_cat.discount}} %
+          </h5>
+          {% endif %}
+          <h5 class="text-center">{{get_cat.name}}</h5>
+          <p class="text-center">Price: {{get_cat.price}}€</p>
+        </div>
+        <div class="card-footer">
+          <a href="#" class="float-start btn btn-sm btn-primary">Details</a>
+          <a href="#" class="float-end btn btn-sm btn-warning">Add to Cart</a>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+    <!-- If other-->
+    {% else %}
+    <!-- Loop through all products -->
     {% for product in products %}
     <div class="col-md-3">
       <div class="card">
@@ -39,7 +118,10 @@
         </div>
       </div>
     </div>
+    <!-- End interation through products-->
     {% endfor %}
+    <!-- End if selection query -->
+    {% endif %}
   </div>
 </div>
 {% endblock %}
