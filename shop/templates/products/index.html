@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+<!-- Content block  -->
+{% block content %}
+<!-- Navabar Import -->
+{% include './products/components/navbar.html' %}
+<!-- Content Page -->
+<div class="container">
+  <div class="row">
+    {% for product in products %}
+    <div class="col-md-3">
+      <div class="card">
+        <img
+          src="{{url_for('static', filename = 'images/' + product.image_1)}}"
+          alt="{{product.name}}"
+          class="card-img-top"
+          height="200"
+        />
+        <div class="card-body">
+          {% if product.discount > 0 %}
+          <h5
+            style="
+              text-shadow: 1px 1px 2px #000;
+              color: #f00;
+              transform: rotate(-15deg);
+              position: absolute;
+              top: 20%;
+              left: 20%;
+            "
+          >
+            Discount {{product.discount}} %
+          </h5>
+          {% endif %}
+          <h5 class="text-center">{{product.name}}</h5>
+          <p class="text-center">Price: {{product.price}}€</p>
+        </div>
+        <div class="card-footer">
+          <a href="#" class="float-start btn btn-sm btn-primary">Details</a>
+          <a href="#" class="float-end btn btn-sm btn-warning">Add to Cart</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

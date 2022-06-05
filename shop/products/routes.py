@@ -11,6 +11,13 @@ from .models import Brand, Category, Addproduct
 from shop import db, app, photos
 
 
+# Homepage
+@app.route('/')
+def home():
+    products = Addproduct.query.filter(Addproduct.stock > 0)
+    return render_template('products/index.html', products = products)
+
+
 ################# BRANDS #################
 
 # Add Brands

@@ -10,7 +10,7 @@ from .forms import RegistrationForm, LoginForm
 from .models import User
 
 #  Landing Admin
-@app.route("/")
+@app.route("/admin")
 def admin():
     # Check if user is authenticated
     if 'email' not in session:
