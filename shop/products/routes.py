@@ -10,6 +10,9 @@ from .forms import Addproducts
 from .models import Brand, Category, Addproduct
 from shop import db, app, photos
 
+
+################# BRANDS #################
+
 # Add Brands
 @app.route('/addbrand', methods = ['GET', 'POST'])
 def addbrand():
@@ -45,6 +48,25 @@ def updatebrand(id):
         return redirect(url_for('brands'))    
 
     return render_template('products/updatebrand.html', title = 'Update Brand', update_brand = update_brand)
+
+# Delete Brand
+@app.route('/deletebrand/<int:id>', methods = ['POST'])
+def deletebrand(id):
+    # Query brand
+    brand = Brand.query.get_or_404(id)
+    if request.method == "POST":
+        # Remove brand from database
+        db.session.delete(brand)
+        db.session.commit()
+        flash(f"{brand.name} deleted from database", 'success')
+        return redirect(url_for('admin'))
+
+    # if request methods isn't POST
+    flash(f"{brand.name} can't be deleted", 'warning')
+    return redirect(url_for('admin'))
+
+
+################# CATS #################
 
 # Update Category
 @app.route('/updatecategory/<int:id>', methods=['POST', 'GET'])
@@ -82,6 +104,25 @@ def addcat():
         flash(f"Category:'{getcategory}' added to database!", "success")
         return redirect(url_for('addcat'))
     return render_template('products/addbrand.html', title = 'Add Category')
+
+# Delete Category
+@app.route('/deletecategory/<int:id>', methods=['POST'])
+def deletecategory(id):
+    # Query category to delete
+    cat = Category.query.get_or_404(id)
+    if request.method == "POST":
+        # Remove category from database
+        db.session.delete(cat)
+        db.session.commit()
+        
+        flash(f"{cat.name} deleted from database", 'success')
+        return redirect(url_for('admin'))
+
+    # if request methods isn't POST
+    flash(f"{cat.name} can't be deleted", 'warning')
+    return redirect(url_for('admin'))
+
+################# PRODS #################
 
 # Add Product
 @app.route('/addproduct', methods=['POST', 'GET'])
