@@ -9,7 +9,7 @@
     <!-- If brand -->
     {% if brand %}
     <!-- Loop throught products in X brand -->
-    {% for b in brand %}
+    {% for b in brand.items %}
     <div class="col-md-3">
       <div class="card">
         <img
@@ -42,12 +42,58 @@
         </div>
       </div>
     </div>
+
     {% endfor %}
     <!-- End brand loop -->
-    <!-- If category query-->
+  </div>
+  <div class="row mb-3">
+    <div class="col text-center">
+      <!-- Paginate controls -->
+      <!-- If has previous page -->
+      {% if brand.has_prev %}
+      <a
+        class="btn btn-primary btn-sm mt-3"
+        href="{{url_for('get_brand',id=get_d.id,  page=brand.prev_num)}}"
+        >Previous</a
+      >
+      {% endif %}
+      <!-- Iterate through pages-->
+      {% for page_num in brand.iter_pages(left_edge=1, right_edge=1,
+      left_current=1, right_current=2) %}
+      <!-- if there's page -->
+      {% if page_num %}
+      <!-- if current page -->
+      {% if brand.page == page_num %}
+      <a
+        class="btn btn-primary btn-sm mt-3"
+        href="{{url_for('get_brand', id=get_d.id, page = page_num)}}"
+        >{{page_num}}</a
+      >
+      {% else %}
+      <!-- Page num -->
+      <a
+        class="btn btn-outline-primary btn-sm mt-3"
+        href="{{url_for('get_brand', id=get_d.id, page = page_num)}}"
+        >{{page_num}}</a
+      >
+      {% endif %} {% else %} ... {% endif %}
+      <!-- End of page iteration -->
+      {% endfor %}
+      <!-- If has next page -->
+      {% if brand.has_next %}
+      <a
+        class="btn btn-primary btn-sm mt-3"
+        href="{{url_for('get_brand', id=get_d.id, page=brand.next_num)}}"
+        >Next</a
+      >
+      {% endif %}
+    </div>
+  </div>
+  <!-- If category query-->
+  <div class="row">
     {% elif get_cat_prod %}
     <!-- Iterate  throught products in X category -->
-    {% for get_cat in get_cat_prod %}
+    {% for get_cat in get_cat_prod.items %}
     <div class="col-md-3">
       <div class="card">
         <img
@@ -80,12 +126,57 @@
         </div>
       </div>
     </div>
-
     {% endfor %}
+    <div class="row mb-3">
+      <div class="col text-center">
+        <!-- Paginate controls -->
+        <!-- If has previous page -->
+        {% if get_cat_prod.has_prev %}
+        <a
+          class="btn btn-primary btn-sm mt-3"
+          href="{{url_for('get_category',id=get_cat.id,  page=get_cat_prod.prev_num)}}"
+          >Previous</a
+        >
+        {% endif %}
+        <!-- Iterate through pages-->
+        {% for page_num in get_cat_prod.iter_pages(left_edge=1, right_edge=1,
+        left_current=1, right_current=2) %}
+        <!-- if there's page -->
+        {% if page_num %}
+        <!-- if current page -->
+        {% if get_cat_prod.page == page_num %}
+        <a
+          class="btn btn-primary btn-sm mt-3"
+          href="{{url_for('get_category', id=get_cat.id, page = page_num)}}"
+          >{{page_num}}</a
+        >
+        {% else %}
+        <!-- Page num -->
+        <a
+          class="btn btn-outline-primary btn-sm mt-3"
+          href="{{url_for('get_category', id=get_cat.id, page = page_num)}}"
+          >{{page_num}}</a
+        >
+        {% endif %} {% else %} ... {% endif %}
+        <!-- End of page iteration -->
+        {% endfor %}
+        <!-- If has next page -->
+        {% if get_cat_prod.has_next %}
+        <a
+          class="btn btn-primary btn-sm mt-3"
+          href="{{url_for('get_category', id=get_cat.id, page=get_cat_prod.next_num)}}"
+          >Next</a
+        >
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
     <!-- If other-->
     {% else %}
     <!-- Loop through all products -->
-    {% for product in products %}
+    {% for product in products.items %}
     <div class="col-md-3">
       <div class="card">
         <img
@@ -120,8 +211,52 @@
     </div>
     <!-- End interation through products-->
     {% endfor %}
-    <!-- End if selection query -->
-    {% endif %}
   </div>
+  <div class="row mb-3">
+    <div class="col text-center">
+      <!-- Paginate controls -->
+      <!-- If has previous page -->
+      {% if products.has_prev %}
+      <a
+        class="btn btn-primary btn-sm mt-3"
+        href="{{url_for('home', page=products.prev_num)}}"
+        >Previous</a
+      >
+      {% endif %}
+      <!-- Iterate through pages-->
+      {% for page_num in products.iter_pages(left_edge=1, right_edge=1,
+      left_current=1, right_current=2) %}
+      <!-- if there's page -->
+      {% if page_num %}
+      <!-- if current page -->
+      {% if products.page == page_num %}
+      <a
+        class="btn btn-primary btn-sm mt-3"
+        href="{{url_for('home', page = page_num)}}"
+        >{{page_num}}</a
+      >
+      {% else %}
+      <!-- Page num -->
+      <a
+        class="btn btn-outline-primary btn-sm mt-3"
+        href="{{url_for('home', page = page_num)}}"
+        >{{page_num}}</a
+      >
+      {% endif %} {% else %} ... {% endif %}
+      <!-- End of page iteration -->
+      {% endfor %}
+      <!-- If has next page -->
+      {% if products.has_next %}
+      <a
+        class="btn btn-primary btn-sm mt-3"
+        href="{{url_for('home', page=products.next_num)}}"
+        >Next</a
+      >
+      {% endif %}
+    </div>
+  </div>
+  <!-- End if selection query -->
+  {% endif %}
 </div>
+
 {% endblock %}

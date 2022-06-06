@@ -12,12 +12,17 @@ from .models import Brand, Category, Addproduct
 from shop import db, app, photos
 
 
+################ CONSTs #################
+PER_PAGE = 8
+
 ################# FRONTEND #################
 
 # Homepage
 @app.route('/')
 def home():
-    products = Addproduct.query.filter(Addproduct.stock > 0)
+    page = request.args.get('page', 1, type = int)
+
+    products = Addproduct.query.filter(Addproduct.stock > 0).order_by(Addproduct.id.desc()).paginate(page = page, per_page = PER_PAGE)
     brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
     categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
 
@@ -27,25 +32,31 @@ def home():
 # Display Brands 
 @app.route('/brand/<int:id>')
 def get_brand(id):
-    brand = Addproduct.query.filter_by(brand_id = id)
+    page = request.args.get('page', 1, type = int)
+    get_d = Brand.query.filter_by(id = id).first_or_404()
+
+    brand = Addproduct.query.filter_by(brand_id = id).paginate(page = page, per_page = PER_PAGE)
     brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
     brand_name = Brand.query.filter_by(id = id).first().name
     
     categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
 
     return render_template('products/index.html', title = f'Watching {brand_name}',
-        brand = brand, brands = brands, categories =  categories)
+        brand = brand, brands = brands, categories =  categories, get_d = get_d)
 
 # Display Categories
 @app.route('/category/<int:id>')
 def get_category(id):
-    get_cat_prod = Addproduct.query.filter_by(category_id = id)
+    page = request.args.get('page', 1, type = int)
+    get_cat = Category.query.filter_by(id = id).first_or_404()
+
+    get_cat_prod = Addproduct.query.filter_by(category = get_cat).paginate(page = page, per_page = PER_PAGE)
     category_name = Category.query.filter_by(id = id).first().name
     categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
     brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
 
     return render_template('products/index.html', title = f'Watching {category_name}',
-        get_cat_prod = get_cat_prod, categories = categories, brands = brands)
+        get_cat_prod = get_cat_prod, categories = categories, brands = brands, get_cat = get_cat)
 
 
 ################# BRANDS #################
