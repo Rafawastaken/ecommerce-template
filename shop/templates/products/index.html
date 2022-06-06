@@ -5,12 +5,12 @@
 {% include './products/components/navbar.html' %}
 <!-- Content Page -->
 <div class="container mt-3">
-  <div class="row">
+  <div class="row mb-3">
     <!-- If brand -->
     {% if brand %}
     <!-- Loop throught products in X brand -->
     {% for b in brand.items %}
-    <div class="col-md-3">
+    <div class="col-md-3 mt-3">
       <div class="card">
         <img
           src="{{url_for('static', filename = 'images/' + b.image_1)}}"
@@ -46,6 +46,7 @@
     {% endfor %}
     <!-- End brand loop -->
   </div>
+  {% if brand.total > 8 %}
   <div class="row mb-3">
     <div class="col text-center">
       <!-- Paginate controls -->
@@ -89,12 +90,13 @@
       {% endif %}
     </div>
   </div>
+  {% endif %}
   <!-- If category query-->
-  <div class="row">
+  <div class="row mb-3">
     {% elif get_cat_prod %}
     <!-- Iterate  throught products in X category -->
     {% for get_cat in get_cat_prod.items %}
-    <div class="col-md-3">
+    <div class="col-md-3 mt-3">
       <div class="card">
         <img
           src="{{url_for('static', filename = 'images/' + get_cat.image_1)}}"
@@ -126,7 +128,7 @@
         </div>
       </div>
     </div>
-    {% endfor %}
+    {% endfor %} {% if get_cat_prod.total > 8%}
     <div class="row mb-3">
       <div class="col text-center">
         <!-- Paginate controls -->
@@ -170,15 +172,16 @@
         {% endif %}
       </div>
     </div>
+    {% endif %}
   </div>
 
-  <div class="row">
+  <div class="row mb-3">
     <!-- If other-->
     {% else %}
     <!-- Loop through all products -->
     {% for product in products.items %}
     <div class="col-md-3">
-      <div class="card">
+      <div class="card mt-3">
         <img
           src="{{url_for('static', filename = 'images/' + product.image_1)}}"
           alt="{{product.name}}"
@@ -212,7 +215,8 @@
     <!-- End interation through products-->
     {% endfor %}
   </div>
-  <div class="row mb-3">
+  {% if products.total > 8%}
+  <div class="row">
     <div class="col text-center">
       <!-- Paginate controls -->
       <!-- If has previous page -->
@@ -255,6 +259,7 @@
       {% endif %}
     </div>
   </div>
+  {% endif %}
   <!-- End if selection query -->
   {% endif %}
 </div>
