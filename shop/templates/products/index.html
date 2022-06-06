@@ -37,7 +37,11 @@
           <p class="text-center">Price: {{b.price}}€</p>
         </div>
         <div class="card-footer">
-          <a href="#" class="float-start btn btn-sm btn-primary">Details</a>
+          <a
+            href="{{url_for('single_page', id=b.id)}}"
+            class="float-start btn btn-sm btn-primary"
+            >Details</a
+          >
           <a href="#" class="float-end btn btn-sm btn-warning">Add to Cart</a>
         </div>
       </div>
@@ -123,7 +127,11 @@
           <p class="text-center">Price: {{get_cat.price}}€</p>
         </div>
         <div class="card-footer">
-          <a href="#" class="float-start btn btn-sm btn-primary">Details</a>
+          <a
+            href="{{url_for('single_page', id=get_cat.id)}}"
+            class="float-start btn btn-sm btn-primary"
+            >Details</a
+          >
           <a href="#" class="float-end btn btn-sm btn-warning">Add to Cart</a>
         </div>
       </div>
@@ -207,7 +215,11 @@
           <p class="text-center">Price: {{product.price}}€</p>
         </div>
         <div class="card-footer">
-          <a href="#" class="float-start btn btn-sm btn-primary">Details</a>
+          <a
+            href="{{url_for('single_page', id=product.id)}}"
+            class="float-start btn btn-sm btn-primary"
+            >Details</a
+          >
           <a href="#" class="float-end btn btn-sm btn-warning">Add to Cart</a>
         </div>
       </div>
