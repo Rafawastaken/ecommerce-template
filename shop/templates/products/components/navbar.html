@@ -69,7 +69,9 @@
         <!-- End Categories Dropdown -->
         <!-- Cart -->
         <li class="nav-item">
-          <a class="nav-link">Cart ({{session['Shopppingcart']|length}})</a>
+          <a href="{{url_for('getCart')}}" class="nav-link"
+            >Cart ({{session['Shopppingcart']|length}})</a
+          >
         </li>
       </ul>
       <form class="d-flex" role="search">

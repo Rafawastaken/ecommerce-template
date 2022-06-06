@@ -1,3 +1,5 @@
+from math import prod
+from operator import sub
 from statistics import quantiles
 from flask import redirect, render_template, request, url_for, flash, session, current_app
 
@@ -12,6 +14,7 @@ def MergeDicts(dict1, dict2):
         return dict(list(dict1.items()) + list(dict2.items()))
     return False
 
+# Method to add to cart
 @app.route('/addcart', methods=['POST'])
 def AddCart():
     try:
@@ -48,3 +51,22 @@ def AddCart():
         print(e)
     finally:
         return redirect(request.referrer)
+
+
+# Display cart
+@app.route('/carts')
+def getCart():
+    if 'Shopppingcart' not in session:
+        return redirect(request.referrer)
+
+    subtotal = 0
+    grandtotal = 0
+    for key, product in session['Shopppingcart'].items():
+        discount = (product['discount']/100) * float(product['price'])
+        subtotal = subtotal + float(product['price']) * int(product['quantity'])
+        subtotal = subtotal - discount 
+        tax = ("%.2f" % (.06 * float(subtotal)))
+
+        grandtotal = float("%.2f" % (1.06 * subtotal))
+
+    return render_template('products/carts.html', tax = tax, grandtotal = grandtotal)
