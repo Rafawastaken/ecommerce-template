@@ -21,7 +21,7 @@ def AddCart():
         colors = request.form.get('colors')
         product = Addproduct.query.filter_by(id = product_id).first()
 
-        if product_id and quantity and colors and request.method == "POST":
+        if request.method == "POST":
             DictItems = {
                 product_id:{
                     'name':product.name,
@@ -37,14 +37,17 @@ def AddCart():
             if 'Shoppingcart' in session:
                 print(session['Shoppingcart'])
                 if product_id in session['Shoppingcart']:
-                    print("Product already in cart") # Change to increment.
+                    for key, item in session['Shoppingcart'].items():
+                        if int(key) == int(product_id):
+                            session.modified = True
+                            item['quantity'] = int(item['quantity']) + 1 
                 else:
                     session['Shoppingcart'] = MergeDicts(session['Shoppingcart'], DictItems)
-
                     return redirect(request.referrer)
             else:
                 session['Shoppingcart'] = DictItems
                 return redirect(request.referrer)
+
     except Exception as e:
         print(e)
     finally:
@@ -103,3 +106,12 @@ def deleteitem(id):
         print(e)
         return redirect(url_for('getCart'))
     
+# Clear cart session
+@app.route('/clearcart')
+def clearcart():
+    try:
+        # session.clear() -> Removes all session (logins, etc..)
+        session.pop('Shoppingcart', None)
+        return redirect(url_for('home'))
+    except Exception as e:
+        print(e)
