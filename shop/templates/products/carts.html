@@ -7,9 +7,10 @@
 <div class="container">
   <div class="row h4 mt-3">Cart Items</div>
   <div class="row">
-    <table class="table table-sm mt-3 text-center">
+    <table class="table table-sm mt-3 text-center table-bordered">
       <thead>
         <th>SR</th>
+        <th>Image</th>
         <th class="text-start">Name</th>
         <th>Color</th>
         <th>Price</th>
@@ -20,28 +21,73 @@
         <th>Delete</th>
       </thead>
       <tbody>
-        {% for key, product in session['Shopppingcart'].items() %}
-        {% set discount = "%0.2f"|format((product.discount/100) * product.price|float) %}
+        {% for key, product in session['Shoppingcart'].items() %}
+
+        <!-- Calculate discount -->
+        {% set discount = "%0.2f"|format((product.discount/100) *
+        product.price|float) %}
+
         <tr>
           <td>{{loop.index}}</td>
+          <td>
+            <img
+              src="{{url_for('static', filename = 'images/' + product.image)}}"
+              width="45"
+              height="50"
+              alt="{{product.name}}"
+            />
+          </td>
           <td class="text-start">{{product.name}}</td>
-          <td>{{product.color}}</td>
-          <td>{{product.price}} €</td>
-          <td>{{product.quantity}}</td>
-          {% if product.discount > 0 %}
-          <td>{{product.discount}}% (-{{discount}}€)</td>
-          {% else %}
+          <form method="post" action="{{url_for('updatecart', code=key)}}">
+            <td>
+              {% set colors = product.colors.split(',') %}
+              <select name="color" class="form-control text-center mt-2">
+                <option value="{{product.color}}" style="display: none">
+                  {{product.color|capitalize}}
+                </option>
+                <!-- Iterate through colors -->
+                {% for color in colors %}
+                <!-- Set color var -->
+                {% set col = color.split(':') %}
+                <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
+                {% endfor %}
+              </select>
+            </td>
+            <td>{{product.price}} €</td>
+            <td>
+              <input
+                type="number"
+                name="quantity"
+                class="form-control mt-2 text-center"
+                min="1"
+                max="{{product.stock}}"
+                value="{{product.quantity}}"
+              />
+            </td>
+            {% if product.discount > 0 %}
+            <td>{{product.discount}}% (-{{discount}}€)</td>
+            {% else %}
             <td>-</td>
-          {% endif %}
-          {% set subtotal = product.quantity|int * product.price|float %}
-          <td>{{"%0.2f"|format((subtotal|float) - discount|float)}} €</td>
-          <td><a href="#" class="btn btn-sm btn-primary">Update</td>
-          <td><a href="#" class="btn btn-sm btn-danger">Remove</td>
+            {% endif %}
+            <!-- Subtotal variable -->
+            {% set subtotal = product.quantity|int *product.price|float %}
+            <td>{{"%0.2f"|format((subtotal|float) - discount|float)}} €</td>
+            <td>
+              <input
+                type="submit"
+                class="btn btn-sm btn-primary"
+                value="Update"
+              />
+            </td>
+          </form>
+          <td><a href="#" class="btn btn-sm btn-danger">Remove </a></td>
         </tr>
         {% endfor %}
         <tr>
           <td></td>
-          <td><a href="/" class="btn btn-sm btn-secondary">Continue shopping</a></td>
+          <td>
+            <a href="/" class="btn btn-sm btn-secondary">Continue shopping</a>
+          </td>
           <td colspan="3" class="h4">Tax: {{tax}}</td>
           <td colspan="4" class="h4">Grand Total: {{grandtotal}}</td>
         </tr>
@@ -49,5 +95,4 @@
     </table>
   </div>
 </div>
-
 {% endblock %}
