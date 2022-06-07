@@ -80,18 +80,25 @@
               />
             </td>
           </form>
-          <td><a href="#" class="btn btn-sm btn-danger">Remove </a></td>
+          <td>
+            <a
+              href="{{url_for('deleteitem', id = key)}}"
+              class="btn btn-sm btn-danger"
+              >Delete</a
+            >
+          </td>
         </tr>
         {% endfor %}
-        <tr>
-          <td></td>
-          <td>
-            <a href="/" class="btn btn-sm btn-secondary">Continue shopping</a>
-          </td>
-          <td colspan="3" class="h4">Tax: {{tax}}</td>
-          <td colspan="4" class="h4">Grand Total: {{grandtotal}}</td>
-        </tr>
       </tbody>
+    </table>
+    <table class="table table-sm">
+      <tr>
+        <td>
+          <a href="/" class="btn btn-sm btn-secondary">Checkout</a>
+        </td>
+        <td class="h5">Tax: {{tax}}</td>
+        <td class="h5">Grand Total: {{grandtotal}}</td>
+      </tr>
     </table>
   </div>
 </div>

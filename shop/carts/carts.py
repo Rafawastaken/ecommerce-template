@@ -56,8 +56,8 @@ def AddCart():
 # Display cart
 @app.route('/carts')
 def getCart():
-    if 'Shoppingcart' not in session:
-        return redirect(request.referrer)
+    if 'Shoppingcart' not in session or len(session['Shoppingcart']) <= 0:
+        return redirect(url_for('home'))
     subtotal = 0
     grandtotal = 0
     for key, product in session['Shoppingcart'].items():
@@ -72,7 +72,7 @@ def getCart():
 @app.route('/updatecart(<int:code>', methods=['POST'])
 def updatecart(code):
     # If shopping cart doesnt exist or is empty
-    if 'Shoppingcart' not in session and len(session['Shoppingcart']) <= 0:
+    if 'Shoppingcart' not in session or len(session['Shoppingcart']) <= 0:
         return redirect(url_for('home'))
     if request.method == 'POST':
         quantity = request.form.get('quantity')
@@ -90,8 +90,18 @@ def updatecart(code):
             flash('Something went wrong', 'danger')
             return redirect(url_for('getCart'))
 
-# Reset card
-@app.route('/reset-cart')
-def delete_cart():
-    session.clear()
-    return redirect(url_for('home'))
+# Delete cart
+@app.route('/deleteitem/<int:id>')
+def deleteitem(id):
+    if 'Shoppingcart' not in session or len(session['Shoppingcart']) <= 0:
+        return redirect(url_for('home'))
+    try:
+        session.modified = True
+        for key, item in session['Shoppingcart'].items():
+            if int(key) == id:
+                session['Shoppingcart'].pop(key, None)
+                return redirect(url_for('getCart'))
+    except Exception as e:
+        print(e)
+        return redirect(url_for('getCart'))
+    
