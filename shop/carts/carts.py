@@ -1,11 +1,8 @@
-from math import prod
-from operator import sub
-from statistics import quantiles
 from flask import redirect, render_template, request, url_for, flash, session, current_app
-from importlib_metadata import method_cache
 
 from shop import db, app
 from shop.products.models import Addproduct
+from shop.products.routes import brands, categories
 
 # Merge Items in Shoppingcart Session
 def MergeDicts(dict1, dict2):
@@ -66,7 +63,8 @@ def getCart():
         subtotal = subtotal - discount 
         tax = ("%.2f" % (.06 * float(subtotal)))
         grandtotal = float("%.2f" % (1.06 * subtotal))
-    return render_template('products/carts.html', title = "Cart", tax = tax, grandtotal = grandtotal)
+    return render_template('products/carts.html', title = "Cart", tax = tax, 
+        grandtotal = grandtotal, brands = brands(), categories = categories())
 
 # Update Cart
 @app.route('/updatecart(<int:code>', methods=['POST'])
