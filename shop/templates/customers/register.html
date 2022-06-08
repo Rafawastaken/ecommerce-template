@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+<!-- Content block  -->
+{% block content %}
+<!-- Navabar Import -->
+{% include './products/components/navbar.html' %}
+<!-- Render field helper -->
+{% from '_formhelpers.html' import render_field %}
+<!-- Content Page -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div class="display-5 text-start">Register</div>
+      <hr />
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+  <form action="" method="post">
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-4">
+        <!-- Name -->
+        {{ render_field(form.name, class='form-control') }}
+        <!-- Username -->
+        {{ render_field(form.username, class='form-control') }}
+        <!-- Email -->
+        {{ render_field(form.email, class='form-control') }}
+        <!-- Password -->
+        {{ render_field(form.password, class='form-control') }}
+        <!-- Confirm password -->
+        {{ render_field(form.confirm, class='form-control') }}
+        <!-- Profile  -->
+        {{ form.profile(class='btn btn-sm btn-secondary form-control') }}
+      </div>
+      <div class="col-md-4">
+        <!-- Country -->
+        {{ render_field(form.country, class='form-control') }}
+        <!-- City -->
+        {{ render_field(form.city, class='form-control') }}
+        <!-- Contact -->
+        {{ render_field(form.contact, class='form-control') }}
+        <!-- Address  -->
+        {{ render_field(form.address, class='form-control') }}
+        <!-- Zip-code -->
+        {{ render_field(form.zipcode, class='form-control') }}
+        <!-- Submit -->
+        {{ form.submit(class='btn btn-sm btn-primary form-control') }}
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+  </form>
+</div>
+{% endblock %}
