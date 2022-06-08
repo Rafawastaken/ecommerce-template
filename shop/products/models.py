@@ -4,6 +4,8 @@ from shop import db
 from datetime import datetime
 
 class Addproduct(db.Model):
+    __searchable__ = ['name', 'desc'] # flask_msearch
+    
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(80), nullable = False)
     price = db.Column(db.Numeric(10, 2), nullable = False)

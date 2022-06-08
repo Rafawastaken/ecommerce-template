@@ -9,7 +9,7 @@ import os
 # Locals imports
 from .forms import Addproducts
 from .models import Brand, Category, Addproduct
-from shop import db, app, photos
+from shop import db, app, photos, products, search
 
 
 ################ CONSTs #################
@@ -33,6 +33,14 @@ def home():
     products = Addproduct.query.filter(Addproduct.stock > 0).order_by(Addproduct.id.desc()).paginate(page = page, per_page = PER_PAGE)
     return render_template('products/index.html', title="Ecom - Homepage", 
         products = products, brands = brands(), categories = categories())
+
+# Search engine
+@app.route('/search')
+def result():
+    searchword = request.args.get('q')
+    products = Addproduct.query.msearch(searchword, fields = ['name', 'desc'], limit = 3)
+    return render_template('products/results.html', title = f"Searching {searchword}", products = products,
+    brands = brands(), categories = categories(), q = searchword)
 
 # Products single page
 @app.route('/product/<int:id>')
