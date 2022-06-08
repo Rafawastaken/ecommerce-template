@@ -9,6 +9,7 @@ __pycache__/
 # Local
 images_example/
 images/
+migrations/
 
 # Distribution / packaging
 .Python

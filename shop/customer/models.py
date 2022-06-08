@@ -16,7 +16,7 @@ class Register(db.Model, UserMixin):
     email = db.Column(db.String(50), unique = True)
     password = db.Column(db.String(200), unique = False)
     country = db.Column(db.String(50), unique = False)
-    state = db.Column(db.String(50), unique = False)
+    # state = db.Column(db.String(50), unique = False)
     city = db.Column(db.String(50), unique = False)
     contact = db.Column(db.String(50), unique = False)
     address = db.Column(db.String(50), unique = False)

@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_uploads import IMAGES, UploadSet, configure_uploads, patch_request_class
 from flask_msearch import Search
 from flask_login import LoginManager
+from flask_migrate import Migrate
 
 import os
 
@@ -28,6 +29,9 @@ bcrypt = Bcrypt(app)
 # Search Module
 search = Search()
 search.init_app(app)
+
+# Database migrations
+migrate = Migrate(app, db)
 
 # Login Manager
 login_manager = LoginManager()  
