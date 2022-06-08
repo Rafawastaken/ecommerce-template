@@ -10,6 +10,7 @@
       <div class="text-center h1 text-primary p-2">Register</div>
       {% from "_formhelpers.html" import render_field %}
       <form method="post">
+        {{ form.csrf_token }}
         <dl>
           {{ render_field(form.name, class="form-control") }} {{
           render_field(form.username, class="form-control") }} {{

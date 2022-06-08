@@ -1,8 +1,15 @@
-from email.policy import default
 from shop import db
 from datetime import datetime
 
-class Register(db.Model):
+from shop import login_manager
+from flask_login import UserMixin
+
+@login_manager.user_loader
+def user_loader(user_id):
+    return Register.query.get(user_id)
+
+
+class Register(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(50), unique = False)
     username = db.Column(db.String(50), unique = True)

@@ -67,6 +67,25 @@
           </ul>
         </li>
         <!-- End Categories Dropdown -->
+        <!-- Login/Logout/Register -->
+        <!-- If user is logged in -->
+        {% if current_user.is_authenticated %}
+        <li class="nav-item">
+          <a href="" class="nav-link">{{current_user.name|capitalize}}</a>
+        </li>
+        <li class="nav-item">
+          <a href="{{url_for('customer_logout')}}" class="nav-link">Log Out</a>
+        </li>
+        {% else %}
+        <!-- If user is not logged in -->
+        <li class="nav-item">
+          <a href="{{url_for('customerLogin')}}" class="nav-link">Login</a>
+        </li>
+        <li class="nav-item">
+          <a href="{{url_for('custom_register')}}" class="nav-link">Sign in</a>
+        </li>
+        {% endif %}
+        <!-- End of Login/Logout/Register -->
         <!-- Cart -->
         <li class="nav-item">
           <a href="{{url_for('getCart')}}" class="nav-link"
