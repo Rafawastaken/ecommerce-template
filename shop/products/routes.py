@@ -12,15 +12,19 @@ from .models import Brand, Category, Addproduct
 from shop import db, app, photos, products, search
 
 
-################ CONSTs #################
-PER_PAGE = 8
+################ CONSTANTS #################
+
+PER_PAGE = 8 # Resutls per page
 
 ################# HELPERS #################
-def brands(): # Query brands
+
+# Query brands
+def brands(): 
     brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
     return brands
 
-def categories(): # Query categories
+# Query categories
+def categories(): 
     categories = Category.query.join(Addproduct, (Category.id == Addproduct.category_id)).all()
     return categories
 

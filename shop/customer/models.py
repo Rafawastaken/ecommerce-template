@@ -32,13 +32,15 @@ class Register(db.Model, UserMixin):
 class JsonEncodeDict(db.TypeDecorator):
     impl = db.Text
 
-    def set_val(self, value, dialect):
+    # Function names are forced
+    def process_bind_param(self, value, dialect): # 
         if value is None:
             return '{}'
         else:
             return json.dumps(value)
 
-    def get_value(self, value, dialect):
+    # Function names are forced
+    def process_result_param(self, value, dialect): # 
         if value is None:
             return '{}'
         else:

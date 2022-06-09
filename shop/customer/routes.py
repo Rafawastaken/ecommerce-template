@@ -10,8 +10,10 @@ import os
 # Locals imports
 from shop import db, app, photos, products, search, bcrypt, login_manager
 from .forms import CustomerRegisterForm, CustomerLoginForm
-from .models import Register
+from .models import Register, CustomerOrder
 
+
+################# CUSTOMERS FUNCS #################
 
 # Register Customer Page
 @app.route('/customer/register', methods = ['GET', 'POST'])
@@ -64,3 +66,30 @@ def customer_logout():
     logout_user()
     flash("You are logged out!", 'success')
     return redirect(url_for('home'))
+
+################# ORDERS #################
+
+# Get Order 
+@app.route('/getorder')
+@login_required
+def get_order():
+    if current_user.is_authenticated:
+        customer_id = current_user.id
+        invoice = secrets.token_hex(5)
+        try:
+            order = CustomerOrder(
+                invoice = invoice,
+                customer_id = customer_id,
+                orders = session['Shoppingcart'] # Session items in cart
+            )
+
+            db.session.add(order)
+            db.session.commit()
+            session.pop('Shoppingcart') # Clear session cart after inserted
+            flash("Your order has been submited!", 'success')
+            return redirect(url_for('home'))
+
+        except Exception as e:
+            print(e)
+            flash("Something went wrong while getting order", 'danger')
+            return(redirect(url_for('getCart')))

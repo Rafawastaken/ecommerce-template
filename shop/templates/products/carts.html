@@ -94,7 +94,9 @@
     <table class="table table-sm">
       <tr>
         <td>
-          <a href="/" class="btn btn-sm btn-success">Checkout</a>
+          <a href="{{url_for('get_order')}}" class="btn btn-sm btn-success"
+            >Checkout</a
+          >
         </td>
         <td class="h5">Tax: {{tax}}</td>
         <td class="h5">Grand Total: {{grandtotal}}</td>
