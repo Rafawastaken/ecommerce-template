@@ -1,3 +1,4 @@
+from operator import sub
 from flask import current_app, render_template, url_for, flash
 from flask import redirect, request, session
 
@@ -93,3 +94,27 @@ def get_order():
             print(e)
             flash("Something went wrong while getting order", 'danger')
             return(redirect(url_for('getCart')))
+
+
+@app.route('/orders/<invoice>')
+@login_required
+def orders(invoice):
+    if current_user.is_authenticated:
+        grandtotal = 0
+        subtotal = 0
+        discount = 0
+        customer_id = current_user.id
+        customer = Register.query.filter_by(id = customer_id).first()
+        orders = CustomerOrder.query.filter_by(customer_id = customer_id).order_by(CustomerOrder.id.desc())
+
+        for key, product in orders.orders.items():
+            discount = (product['discount']/100) * float(product['price'])
+            subtotal += float(product['price']) * int(product['quantity'])
+            subtotal -= discount
+            tax = ("%.2f" % (.06 * float(subtotal)))
+            grandtotal = float("%.2f" % (1.06 * subtotal))
+    else:
+        return redirect(url_for('customerLogin'))
+
+    return render_template("customers/order.html", title = "order", invoice = invoice, subtotal = subtotal, 
+        grandtotal = grandtotal, tax = tax, customer = customer, orders = orders, discount = discount)

@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+<!-- Webpage content-->
+{% block content %}
+<!-- Import Navbar -->
+{% include './products/components/navbar.html' %}
+<!-- start of page -->
+<div class="container">
+  <div class="row mt-3">
+    <div class="col-md-12">
+      <div class="info">
+        <div class="h4">
+          Invoice:
+          <span class="fw-bold">{{orders.invoice}}</span>
+        </div>
+        <div class="h5">Status: {{orders.status}}</div>
+        <h6>Customer Name: {{customer.name}}</h6>
+        <h6>Email: {{customer.email}}</h6>
+        <h6>Customer Contact: {{customer.contact}}</h6>
+      </div>
+      <table class="table table-sm mt-4 text-center table-bordered">
+        <thead>
+          <th>SR</th>
+          <th class="text-start">Name</th>
+          <th>Color</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Discount</th>
+          <th>Subtotal</th>
+        </thead>
+        <tbody>
+          {% for key, product in orders.orders.items() %}
+
+          <!-- Calculate discount -->
+          <tr>
+            <td>{{loop.index}}</td>
+
+            <td class="text-start">{{product.name}}</td>
+            <form method="post" action="{{url_for('updatecart', code=key)}}">
+              <td>{{product.color}}</td>
+              <td>{{product.price}} €</td>
+              <td>
+                <input
+                  type="number"
+                  name="quantity"
+                  class="form-control mt-2 text-center"
+                  min="1"
+                  max="{{product.stock}}"
+                  value="{{product.quantity}}"
+                />
+              </td>
+              {% if product.discount > 0 %}
+              <td>{{product.discount}}% (-{{discount}}€)</td>
+              {% else %}
+              <td>-</td>
+              {% endif %}
+              <td>{{"%0.2f"|format((subtotal|float) - discount|float)}} €</td>
+            </form>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <table class="table table-sm">
+        <tr>
+          <td>
+            <a href="#" class="btn btn-sm btn-success">Checkout</a>
+          </td>
+          <td class="h5">Tax: {{tax}}</td>
+          <td class="h5">Grand Total: {{grandtotal}}</td>
+          <td class="">
+            <a href="#" class="btn btn-sm btn-danger float-end">Get PDF</a>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -40,7 +40,7 @@ class JsonEncodeDict(db.TypeDecorator):
             return json.dumps(value)
 
     # Function names are forced
-    def process_result_param(self, value, dialect): # 
+    def process_result_value(self, value, dialect): # 
         if value is None:
             return '{}'
         else:
