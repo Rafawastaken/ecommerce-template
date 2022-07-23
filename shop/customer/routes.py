@@ -105,7 +105,7 @@ def orders(invoice):
         discount = 0
         customer_id = current_user.id
         customer = Register.query.filter_by(id = customer_id).first()
-        orders = CustomerOrder.query.filter_by(customer_id = customer_id).order_by(CustomerOrder.id.desc())
+        orders = CustomerOrder.query.filter_by(customer_id = customer_id).order_by(CustomerOrder.id.desc()).first()
 
         for key, product in orders.orders.items():
             discount = (product['discount']/100) * float(product['price'])
